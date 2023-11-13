@@ -3,36 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Preloader } from './Preloader';
 
-const Book = (props) => {
-  return (
-    <div>
-      <h2>{props.name}</h2>
-      <p>год издания: {props.year} г.</p>
-      <p>стоимость {props.price} руб.</p>
-      <p>{props.children}</p>
-    </div>
-  )
-}
+const isLoading = false;
 
-const Application = () => {
-  return (
-    <div>
-      <Book name='книга 1' year='1800' price='100'> 
-      Text here 
-      </Book>
-      <Book name='книга 2' year='1900' price='200'/>
-      <Book name='книга 3' year='2000' price='300'/>
-    </div>
-  )
-}
+
+
+
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Application />
+    <App isLoading={isLoading} />
   </React.StrictMode>
 );
 
