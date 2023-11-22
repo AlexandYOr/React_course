@@ -1,46 +1,41 @@
 import React, { Component } from 'react'
-import './app.css'
+import {Posts} from './components/Posts'
+import './App.css'
 
 class App extends Component {
   state = {
-    posts: [],
-    loading: true,
-    comments: [],
+    posts: [
+      {id: 'abc1', name: 'JS1'},
+      {id: 'abc2', name: 'JS2'},
+      {id: 'abc4', name: 'JS3'},
+      {id: 'abc5', name: 'JS4'},
+      {id: 'abc6', name: 'JS5'},
+      {id: 'abc7', name: 'JS6'},
+      {id: 'abc8', name: 'JS7'},
+      {id: 'abc9', name: 'JS8'},
+    ],
   }
 
-
-  componentDidMount() {
-    console.log('componentDidMount')
-    fetch('https://jsonplaceholder.typicode.com/posts/')
-      .then(res => res.json())
-      .then(data => this.setState({ posts: data, loading: false }))
-
-      this.timerId = setInterval(() => {
-        fetch('https://jsonplaceholder.typicode.com/comments/')
-          .then(res => res.json())
-          .then(data => this.setState({ comments: data }))
-      }, 3000)
-  }
-
-componentDidUpdate() {
-  console.log('componentDidUpdate')
-}
-
-componentWillUnmount() {
-  clearInterval(this.timerId)
-}
-
-render() {
-  return (
-    <div className='App'>
-      {this.setState.loading ? <h3>Loading...</h3> : <h3>
-        {this.state.posts.length} was loaded
-      </h3>
+  handleDelete = (id) => {
+    this.setState((state) => {
+      return {
+        posts: state.posts.filter((obj) => id !== obj.id),
       }
-    </div>
-  )
-}
+    })
+  }
+  componentDidUpdate() {
+    console.log('update')
+  }
+  
+  render() {
+    const {posts} = this.state 
+    return (
+      <div className='App'>
+        <Posts posts={posts} cb={this.handleDelete}/>
+      </div>
+    )
 
+  }
 }
 
 export default App
