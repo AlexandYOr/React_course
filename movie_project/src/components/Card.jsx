@@ -2,7 +2,7 @@ export function Card(props) {
     const {data} = props
     const {Title, Year, imdbID, Type, Poster} = data
     return (<div className="card">
-    <div className="card-image waves-effect waves-block waves-light">
+    <div className="card-image-wrapper waves-effect waves-block waves-light">
       <img className="card-image activator" src={Poster}/>
     </div>
     <div className="card-content">
