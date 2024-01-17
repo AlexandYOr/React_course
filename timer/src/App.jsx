@@ -1,90 +1,135 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import './App.css';
 
 
-class App extends Component {
-    state = {
-        seconds: 0,
-        interval: null
+function App() {
+    const [seconds, setSeconds] = useState(0)
+    const [interval, setNewInterval] = useState(null)
+
+    const handleStart = () => {
+        setNewInterval(() => setInterval(() => {
+            setSeconds((seconds) => seconds - 1)
+        }, 1000))
     }
 
-
-    handleStart = () => {
-        this.setState((state) => {
-            return {
-                ...state,
-                interval: setInterval(() => {
-                    this.setState((state) => {
-                        return {
-                            ...state,
-                            seconds: state.seconds - 1,
-                        }
-                    })
-                }, 1000)
-            }
-        })
-    }
-    handleStop = () => {
-        clearInterval(this.state.interval)
-        this.setState((state) => {
-            return {
-                ...state,
-                interval: null
-            }
-        })
+    const handleStop = () => {
+        clearInterval(interval)
+        setNewInterval(null)
     }
 
-    handleIncrement = () => {
-        this.setState((state) => {
-            return {
-                ...state,
-                seconds: state.seconds + 5
-            }
-        })
+    const handleIncrement = () => {
+        setSeconds(seconds + 5)
     }
-    handleDecrement = () => {
-            this.setState((state) => {
-                return {
-                    ...state,
-                    seconds: state.seconds - 5
-                }
-            })        
+
+    const handleDecrement = () => {
+        setSeconds(seconds - 5)
     }
-    componentDidUpdate() {
-        if (this.state.seconds === 0) {
-            clearInterval(this.state.interval)
-            if (this.state.interval) {
-                this.setState((state) => {
-                    return {
-                        ...state,
-                        interval: null
-                    }
-                })
-            }
+
+    useEffect(() => {
+        if (seconds === 0) {
+            handleStop()
         }
-        
-    }
-    componentWillUnmount() {
-        clearInterval(this.state.interval)
-    }
-    render() {
-        return (
-            <>
-                <div className='timer'>
-                    <button onClick={this.handleStart} disabled={!!this.state.interval }>start</button>
-                    <h3>{this.state.seconds}</h3>
-                    <button onClick={this.handleStop}>stop</button>
-                </div>
-                <div className='buttons'>
-                    <button onClick={this.handleIncrement} disabled={!!this.state.interval}>+</button>
-                    <button onClick={this.handleDecrement} disabled={!!this.state.interval || this.state.seconds <= 5 ? true : false}>-</button>
-                </div>
-            </>
+    })
 
-
-        )
-    }
+    return (
+        <>
+            <div className='timer'>
+                <button onClick={handleStart} disabled={!!interval}>start</button>
+                <h3>{seconds}</h3>
+                <button onClick={handleStop}>stop</button>
+            </div>
+            <div className='buttons'>
+                <button onClick={handleIncrement} disabled={!!interval}>+</button>
+                <button onClick={handleDecrement} disabled={!!interval || seconds <= 5 ? true : false}>-</button>
+            </div>
+        </>
+    )
 }
+
+
+// class App extends Component {
+//      = {
+//         seconds: 0,
+//         interval: null
+//     }
+
+
+//     handleStart = () => {
+//         setState(() => {
+//             return {
+//                 ...,
+//                 interval: setInterval(() => {
+//                     setState(() => {
+//                         return {
+//                             ...,
+//                             seconds: .seconds - 1,
+//                         }
+//                     })
+//                 }, 1000)
+//             }
+//         })
+//     }
+//     handleStop = () => {
+//         clearInterval(.interval)
+//         setState(() => {
+//             return {
+//                 ...,
+//                 interval: null
+//             }
+//         })
+//     }
+
+//     handleIncrement = () => {
+//         setState(() => {
+//             return {
+//                 ...,
+//                 seconds: .seconds + 5
+//             }
+//         })
+//     }
+//     handleDecrement = () => {
+//             setState(() => {
+//                 return {
+//                     ...,
+//                     seconds: .seconds - 5
+//                 }
+//             })        
+//     }
+//     componentDidUpdate() {
+//         if (.seconds === 0) {
+//             clearInterval(.interval)
+//             if (.interval) {
+//                 setState(() => {
+//                     return {
+//                         ...,
+//                         interval: null
+//                     }
+//                 })
+//             }
+//         }
+
+//     }
+//     componentWillUnmount() {
+//         clearInterval(.interval)
+//     }
+//     render() {
+//         return (
+//             <>
+//                 <div className='timer'>
+//                     <button onClick={handleStart} disabled={!!.interval }>start</button>
+//                     <h3>{.seconds}</h3>
+//                     <button onClick={handleStop}>stop</button>
+//                 </div>
+//                 <div className='buttons'>
+//                     <button onClick={handleIncrement} disabled={!!.interval}>+</button>
+//                     <button onClick={handleDecrement} disabled={!!.interval || .seconds <= 5 ? true : false}>-</button>
+//                 </div>
+//             </>
+
+
+//         )
+//     }
+// }
 
 
 export default App;
